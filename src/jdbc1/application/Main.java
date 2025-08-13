@@ -1,3 +1,4 @@
+/* Este é um comentário de teste adicionado pelo Crush. */
 package jdbc1.application;
 
 import jdbc1.db.DB;

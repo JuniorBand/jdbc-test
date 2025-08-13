@@ -1,7 +1,7 @@
 package demo_dao_jdbc.application;
 
-import demo_dao_jdbc.application.model.entities.Department;
-import demo_dao_jdbc.application.model.entities.Seller;
+import demo_dao_jdbc.model.entities.Department;
+import demo_dao_jdbc.model.entities.Seller;
 
 import java.util.Date;
 

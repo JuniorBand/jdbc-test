@@ -14,6 +14,7 @@
     <mapping directory="$PROJECT_DIR$/../course" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../gas" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../gestao_vagas" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../java-genai" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../todolist" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../workshopmongo" vcs="Git" />
   </component>
