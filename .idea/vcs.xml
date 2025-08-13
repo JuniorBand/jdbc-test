@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../ChessJava" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Desafio Sirius" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../DevLinks" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../GerenciadordeTarefas" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Hexdump" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Matrix_Determinant" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../PicPay - Desafio" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../Spring Security" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../course" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../gas" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../gestao_vagas" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../todolist" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../workshopmongo" vcs="Git" />
+  </component>
+</project>
