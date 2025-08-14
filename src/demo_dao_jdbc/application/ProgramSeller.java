@@ -2,21 +2,17 @@ package demo_dao_jdbc.application;
 
 import demo_dao_jdbc.db.DB;
 import demo_dao_jdbc.model.dao.DaoFactory;
-import demo_dao_jdbc.model.dao.DepartmentDao;
 import demo_dao_jdbc.model.dao.SellerDao;
-import demo_dao_jdbc.model.dao.impl.DepartmentDaoJDBC;
 import demo_dao_jdbc.model.dao.impl.SellerDaoJDBC;
 import demo_dao_jdbc.model.entities.Department;
 import demo_dao_jdbc.model.entities.Seller;
 
-import java.sql.Connection;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 
-public class Program {
+public class ProgramSeller {
 
     public static void main(String[] args) {
 
@@ -60,7 +56,11 @@ public class Program {
         System.out.println("Insert a valid id to delete:");
         int id = sc.nextInt();
         sellerDao.deleteById(id);
-        sellerDao.findAll();
+        list = sellerDao.findAll();
+
+        for (Seller obj : list) {
+            System.out.println(obj);
+        }
 
         sc.close();
     }
