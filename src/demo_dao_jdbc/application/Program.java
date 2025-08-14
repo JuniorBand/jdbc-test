@@ -1,5 +1,10 @@
 package demo_dao_jdbc.application;
 
+import demo_dao_jdbc.model.dao.DaoFactory;
+import demo_dao_jdbc.model.dao.DepartmentDao;
+import demo_dao_jdbc.model.dao.SellerDao;
+import demo_dao_jdbc.model.dao.impl.DepartmentDaoJDBC;
+import demo_dao_jdbc.model.dao.impl.SellerDaoJDBC;
 import demo_dao_jdbc.model.entities.Department;
 import demo_dao_jdbc.model.entities.Seller;
 
@@ -13,6 +18,10 @@ public class Program {
         Department dep = new Department(1, "Books");
         Seller sel = new Seller(21, "Bob", "bob@gmail.com", new Date(), 3000.0, dep);
         System.out.println(dep + "\n"+ sel);
+
+        SellerDao sellerDao = DaoFactory.createSellerDao(new SellerDaoJDBC());
+        DepartmentDao departmentDao = DaoFactory.createDepartmentDao(new DepartmentDaoJDBC());
+
 
     }
 }
