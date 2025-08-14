@@ -25,6 +25,39 @@ public class SellerDaoJDBC implements SellerDao {
     @Override
     public void insert(Seller sel) {
 
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = conn.prepareStatement("INSERT INTO sellers" +
+                    "(Name, Email, BirthDate, Salary, DepartmentId)" +
+                    "VALUES" +
+                    "(?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+
+            st.setString(1, sel.getName());
+            st.setString(2, sel.getEmail());
+            st.setDate(3, new java.sql.Date(sel.getBirthDate().getTime()));
+            st.setDouble(4, sel.getBaseSalary());
+            st.setInt(5, sel.getDepartment().getId());
+
+            int rowsAffected = st.executeUpdate();
+
+            if (rowsAffected > 0) {
+                rs = st.getGeneratedKeys();
+
+                if(rs.next()) {
+                    sel.setId(rs.getInt(1)); // Assuming Seller has a setId method
+                }
+            } else {
+                throw new DbException("Unexpected error! No rows affected.");
+            }
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            DB.closeResultSet(rs);
+            DB.closeStatement(st);
+        }
+
     }
 
     @Override
@@ -72,26 +105,6 @@ public class SellerDaoJDBC implements SellerDao {
             DB.closeResultSet(rs);
             DB.closeStatement(st);
         }
-    }
-
-    private Department instantiateDepartment(ResultSet rs) throws SQLException {
-        Department dep = new Department();
-        // Assuming Department has a constructor that takes id and name
-        dep.setId(rs.getInt("DepartmentId"));
-        dep.setName(rs.getString("DepName"));
-        return dep;
-    }
-
-    private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
-        Seller sel = new Seller();
-        // Assuming Seller has a constructor that takes id, name, email, birthDate, salary
-        sel.setId(rs.getInt("Id"));
-        sel.setName(rs.getString("Name"));
-        sel.setEmail(rs.getString("Email"));
-        sel.setBirthDate(rs.getDate("BirthDate"));
-        sel.setBaseSalary(rs.getDouble("Salary"));
-        sel.setDepartment(dep);
-        return sel;
     }
 
     @Override
@@ -176,6 +189,26 @@ public class SellerDaoJDBC implements SellerDao {
             DB.closeResultSet(rs);
             DB.closeStatement(st);
         }
+    }
+
+    private Department instantiateDepartment(ResultSet rs) throws SQLException {
+        Department dep = new Department();
+        // Assuming Department has a constructor that takes id and name
+        dep.setId(rs.getInt("DepartmentId"));
+        dep.setName(rs.getString("DepName"));
+        return dep;
+    }
+
+    private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
+        Seller sel = new Seller();
+        // Assuming Seller has a constructor that takes id, name, email, birthDate, salary
+        sel.setId(rs.getInt("Id"));
+        sel.setName(rs.getString("Name"));
+        sel.setEmail(rs.getString("Email"));
+        sel.setBirthDate(rs.getDate("BirthDate"));
+        sel.setBaseSalary(rs.getDouble("Salary"));
+        sel.setDepartment(dep);
+        return sel;
     }
 
 }
