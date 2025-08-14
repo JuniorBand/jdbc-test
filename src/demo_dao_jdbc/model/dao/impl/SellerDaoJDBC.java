@@ -54,19 +54,10 @@ public class SellerDaoJDBC implements SellerDao {
             rs = st.executeQuery();
 
             if (rs.next()) {
-                Department dep = new Department();
-                // Assuming Department has a constructor that takes id and name
-                dep.setId(rs.getInt("DepartmentId"));
-                dep.setName(rs.getString("DepName"));
+                Department dep = instantiateDepartment(rs);
 
                 // Assuming Seller has a constructor that takes all necessary fields
-                Seller sel = new Seller();
-
-                sel.setId(rs.getInt("Id"));
-                sel.setName(rs.getString("Name"));
-                sel.setEmail(rs.getString("Email"));
-                sel.setBirthDate(rs.getDate("BirthDate"));
-                sel.setBaseSalary(rs.getDouble("Salary"));
+                Seller sel = instantiateSeller(rs);
 
                 sel.setDepartment(dep);
 
@@ -81,6 +72,25 @@ public class SellerDaoJDBC implements SellerDao {
             DB.closeResultSet(rs);
             DB.closeStatement(st);
         }
+    }
+
+    private Department instantiateDepartment(ResultSet rs) throws SQLException {
+        Department dep = new Department();
+        // Assuming Department has a constructor that takes id and name
+        dep.setId(rs.getInt("DepartmentId"));
+        dep.setName(rs.getString("DepName"));
+        return dep;
+    }
+
+    private Seller instantiateSeller(ResultSet rs) throws SQLException {
+        Seller sel = new Seller();
+        // Assuming Seller has a constructor that takes id, name, email, birthDate, salary
+        sel.setId(rs.getInt("Id"));
+        sel.setName(rs.getString("Name"));
+        sel.setEmail(rs.getString("Email"));
+        sel.setBirthDate(rs.getDate("BirthDate"));
+        sel.setBaseSalary(rs.getDouble("Salary"));
+        return sel;
     }
 
     @Override

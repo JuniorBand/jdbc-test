@@ -17,17 +17,15 @@ public class Program {
 
     public static void main(String[] args) {
 
-//        Department dep = new Department(1, "Books");
-//        Seller sel = new Seller(21, "Bob", "bob@gmail.com", new Date(), 3000.0, dep);
 
         SellerDao sellerDao = DaoFactory.createSellerDao(new SellerDaoJDBC(DB.getConnection()));
 
+        System.out.println("=== TEST 1: seller findById ===");
         Seller sel = sellerDao.findById(3);
 
         DepartmentDao departmentDao = DaoFactory.createDepartmentDao(new DepartmentDaoJDBC());
 
         System.out.println(sel);
-
 
     }
 }
