@@ -11,6 +11,7 @@ import demo_dao_jdbc.model.entities.Seller;
 
 import java.sql.Connection;
 import java.util.Date;
+import java.util.List;
 
 
 public class Program {
@@ -22,10 +23,15 @@ public class Program {
 
         System.out.println("=== TEST 1: seller findById ===");
         Seller sel = sellerDao.findById(3);
-
-        DepartmentDao departmentDao = DaoFactory.createDepartmentDao(new DepartmentDaoJDBC());
-
         System.out.println(sel);
+
+        System.out.println("=== TEST 2: seller findByDepartment ===");
+        Department dep = new Department(4, null);
+        List<Seller> list = sellerDao.findByDepartment(dep);
+
+        for (Seller obj : list) {
+            System.out.println(obj);
+        }
 
     }
 }

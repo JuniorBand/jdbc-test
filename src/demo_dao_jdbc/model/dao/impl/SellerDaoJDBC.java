@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 
 public class SellerDaoJDBC implements SellerDao {
 
@@ -57,7 +57,7 @@ public class SellerDaoJDBC implements SellerDao {
                 Department dep = instantiateDepartment(rs);
 
                 // Assuming Seller has a constructor that takes all necessary fields
-                Seller sel = instantiateSeller(rs);
+                Seller sel = instantiateSeller(rs, dep);
 
                 sel.setDepartment(dep);
 
@@ -82,7 +82,7 @@ public class SellerDaoJDBC implements SellerDao {
         return dep;
     }
 
-    private Seller instantiateSeller(ResultSet rs) throws SQLException {
+    private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
         Seller sel = new Seller();
         // Assuming Seller has a constructor that takes id, name, email, birthDate, salary
         sel.setId(rs.getInt("Id"));
@@ -90,6 +90,7 @@ public class SellerDaoJDBC implements SellerDao {
         sel.setEmail(rs.getString("Email"));
         sel.setBirthDate(rs.getDate("BirthDate"));
         sel.setBaseSalary(rs.getDouble("Salary"));
+        sel.setDepartment(dep);
         return sel;
     }
 
@@ -99,6 +100,47 @@ public class SellerDaoJDBC implements SellerDao {
         return null;
     }
 
+    @Override
+    public List<Seller> findByDepartment(Department department) {
 
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = conn.prepareStatement(
+                    "SELECT sellers.*,departments.Name as DepName " +
+                            "FROM sellers INNER JOIN departments " +
+                            "ON sellers.DepartmentId = departments.Id " +
+                            "WHERE DepartmentId = ? " +
+                            "ORDER BY Name");
+
+            st.setInt(1, department.getId());
+            rs = st.executeQuery();
+
+            List<Seller> list = new ArrayList<>();
+            Map<Integer, Department> map = new HashMap<>();
+
+
+            while (rs.next()) {
+                Department dep = map.get(rs.getInt("DepartmentId"));
+
+                if (dep == null) {
+                    dep = instantiateDepartment(rs);
+                    map.put(rs.getInt("DepartmentId"), dep);
+                }
+
+                Seller sel = instantiateSeller(rs, dep);
+
+                list.add(sel);
+            }
+            return list;
+
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            DB.closeResultSet(rs);
+            DB.closeStatement(st);
+        }
+    }
 
 }
